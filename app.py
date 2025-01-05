@@ -11,12 +11,12 @@ You are an advanced assistant specializing in genomic research and variant analy
 """
 
 # Replicate API setup
-API_TOKEN = "r8_5nmTGAw6deplpWf76NQjYBZg4cNTCvK14IaEg"  # Replace with your Replicate API token
+API_TOKEN = "r8_NncEYkQ5E8VjfyHKjINZTDtKozKZEbI3O6hNS"  # Replace with your Replicate API token
 MODEL_NAME = "replicate/meta-llama-2-7b"  # Replace with your Replicate model name
 client = replicate.Client(api_token=API_TOKEN)
 
 # Streamlit app UI
-st.title("Llama AI Assistant")
+st.title("DxVar")
 st.write("Powered by Llama-2 and Replicate")
 
 # Input section
