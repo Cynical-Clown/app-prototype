@@ -9,7 +9,7 @@ load_dotenv()
 # App title and description
 st.set_page_config(page_title="DxVar: Genomic Analysis Assistant")
 st.title("DxVar")
-st.write("Powered by Llama-2 (7B) and Replicate")
+st.write("Powered by Llama-2 and Replicate")
 
 # Ensure API token is available
 API_TOKEN = os.getenv("REPLICATE_API_TOKEN")
@@ -51,6 +51,7 @@ def generate_response(user_input):
     Assistant's Detailed Response:
     """
     try:
+        # Call the model via the API
         output = replicate.run(
             MODEL_NAME,
             input={
@@ -60,17 +61,21 @@ def generate_response(user_input):
                 "top_p": TOP_P,
             },
         )
-        # Debug output to inspect raw response
-        st.write("Debug Output (Raw API Response):", output)
 
-        # Join the list of strings into a single string
+        # Join list of strings if output is fragmented and remove redundancies
         if isinstance(output, list):
-            return "".join(output).strip()  # Combine list elements and remove extra spaces
+            cleaned_output = "".join(output).strip()  # Combine fragments
+            lines = cleaned_output.split("\n")
+            deduplicated = []
+            seen = set()
+            for line in lines:
+                if line.strip() and line not in seen:  # Avoid duplicate lines
+                    deduplicated.append(line.strip())
+                    seen.add(line.strip())
+            return "\n".join(deduplicated)  # Join cleaned lines
         return output or "No response generated."
     except Exception as e:
         return f"Error: {str(e)}"
-
-
 
 # Handle user input
 if user_input := st.chat_input("Enter your query about genomic research and variant analysis..."):
