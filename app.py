@@ -20,7 +20,7 @@ if not API_TOKEN:
     st.error("API token not found! Please set `REPLICATE_API_TOKEN` in your environment or Streamlit Secrets.")
     st.stop()
 
-MODEL_NAME = "replicate/meta-llama-2-7b"  # Replace with your Replicate model name
+MODEL_NAME = "replicate/meta/llama-2-7b"  # Replace with your Replicate model name
 client = replicate.Client(api_token=API_TOKEN)
 
 # Streamlit app UI
