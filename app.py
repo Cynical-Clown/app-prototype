@@ -34,14 +34,19 @@ if st.button("Submit"):
     if user_input:
         with st.spinner("Processing..."):
             # Combine system prompt and user input
-            full_prompt = SYSTEM_PROMPT + f"\nUser: {user_input}\nAssistant:"
+            full_prompt = SYSTEM_PROMPT + f"\nUser: {user_input}\nAssistant: Please provide a detailed response:"
             
             # Call the Replicate API
             try:
                 # Call the model and handle the output
                 output = client.run(
                     MODEL_NAME,
-                    input={"prompt": full_prompt, "max_tokens": 200}
+                    input={
+                    "prompt": full_prompt,
+                    "max_tokens": 500,
+                    "temperature": 0.7,
+                    "top_p": 0.95
+                    }
                 )
                 
                 # Handle and display the response
