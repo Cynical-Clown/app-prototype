@@ -60,15 +60,16 @@ def generate_response(user_input):
                 "top_p": TOP_P,
             },
         )
-        st.write("Debug Output (Raw API Response):", output)  # Log the raw response for inspection
-        if isinstance(output, list) and output:  # Check if it's a list
-            return output[0]
-        elif isinstance(output, str):  # Check if it's a string
-            return output
-        else:
-            return "Unexpected response format. Check the API logs or debug output."
+        # Debug output to inspect raw response
+        st.write("Debug Output (Raw API Response):", output)
+
+        # Join the list of strings into a single string
+        if isinstance(output, list):
+            return "".join(output).strip()  # Combine list elements and remove extra spaces
+        return output or "No response generated."
     except Exception as e:
         return f"Error: {str(e)}"
+
 
 
 # Handle user input
