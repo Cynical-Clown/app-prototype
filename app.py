@@ -60,11 +60,16 @@ def generate_response(user_input):
                 "top_p": TOP_P,
             },
         )
-        if isinstance(output, list) and output:
+        st.write("Debug Output (Raw API Response):", output)  # Log the raw response for inspection
+        if isinstance(output, list) and output:  # Check if it's a list
             return output[0]
-        return output or "No response generated."
+        elif isinstance(output, str):  # Check if it's a string
+            return output
+        else:
+            return "Unexpected response format. Check the API logs or debug output."
     except Exception as e:
         return f"Error: {str(e)}"
+
 
 # Handle user input
 if user_input := st.chat_input("Enter your query about genomic research and variant analysis..."):
