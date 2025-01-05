@@ -34,29 +34,35 @@ if st.button("Submit"):
     if user_input:
         with st.spinner("Processing..."):
             # Combine system prompt and user input
-            full_prompt = SYSTEM_PROMPT + f"\nUser: {user_input}\nAssistant: Please provide a detailed response:"
+            full_prompt = f"""
+            {SYSTEM_PROMPT}
+
+            User Query: {user_input}
+
+            Assistant's Detailed Response:
+            """
             
             # Call the Replicate API
             try:
-                # Call the model and handle the output
                 output = client.run(
                     MODEL_NAME,
                     input={
-                    "prompt": full_prompt,
-                    "max_tokens": 500,
-                    "temperature": 0.7,
-                    "top_p": 0.95
+                        "prompt": full_prompt,
+                        "max_tokens": 1000,  # Allow longer responses
+                        "temperature": 0.7,
+                        "top_p": 0.95
                     }
                 )
                 
                 # Handle and display the response
-                if isinstance(output, list):
-                    st.success("Response:")
-                    st.write(output[0])  # If the output is a list, show the first item
+                if isinstance(output, list) and len(output) > 0:
+                    response = output[0]
                 else:
-                    st.success("Response:")
-                    st.write(output)  # If it's a string or other type, display directly
+                    response = output
+                st.success("Response:")
+                st.write(response)
             except Exception as e:
                 st.error(f"Error: {str(e)}")
     else:
         st.warning("Please enter a question.")
+
