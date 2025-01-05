@@ -41,7 +41,7 @@ if st.button("Submit"):
 
             Assistant's Detailed Response:
             """
-            
+
             # Call the Replicate API
             try:
                 output = client.run(
@@ -53,16 +53,14 @@ if st.button("Submit"):
                         "top_p": 0.95
                     }
                 )
-                
                 # Handle and display the response
                 if isinstance(output, list) and len(output) > 0:
                     response = output[0]
                 else:
-                    response = output
+                    response = output or "No response generated."  # Provide default if output is None
                 st.success("Response:")
                 st.write(response)
             except Exception as e:
                 st.error(f"Error: {str(e)}")
     else:
         st.warning("Please enter a question.")
-
